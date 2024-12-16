@@ -39,5 +39,12 @@ add_custom_command(
 
 python_add_library(plumed MODULE plumed.c WITH_SOABI)
 target_include_directories(plumed PRIVATE include)
+target_compile_definitions(plumed PRIVATE 
+                        __PLUMED_HAS_DLOPEN
+                        __PLUMED_WRAPPER_LINK_RUNTIME=1
+                        __PLUMED_WRAPPER_IMPLEMENTATION=1
+                        __PLUMED_WRAPPER_EXTERN=0
+                        #__PLUMED_WRAPPER_ENABLE_RTLD_DEEPBIND=0
+)
 
 install(TARGETS plumed DESTINATION .)
