@@ -69,7 +69,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest] #, macos-latest] macos needs to be set up in te previous step
+        os: [ubuntu-latest, macos-latest]
+        # macos plumed needs to be set up in te previous step
+        # as now macos only tries to install but not to run the tests
         python-version: ["pypy3.10", "3.9", "3.10", "3.11", "3.12", "3.13"]
 
     steps:
@@ -112,4 +114,5 @@ jobs:
       - name: Install package with tests
         run: python -m pip install '.[test]'
       - name: Run tests
+        if: ${{ matrix.os == 'ubuntu-latest' }}
         run: python -m pytest
