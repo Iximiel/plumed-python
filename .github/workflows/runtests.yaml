@@ -119,7 +119,6 @@ jobs:
             export PLUMED_KERNEL=$HOME/opt/lib/libplumedKernel.so
             python -m pytest
   just-build:
-    needs: setup-plumed
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
