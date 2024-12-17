@@ -19,11 +19,12 @@ classifiers=[
           'Programming Language :: Python :: 3.7',
   ]
 authors=[{name = 'Gareth A. Tribello', email='plumed-users@googlegroups.com'}]
-dependencies=["numpy"]
+dependencies=["numpy", "pandas", "mpi4py", "MDAnalysis"]
 #zip_safe=false #deprecated
 requires-python ='>=3'
 [project.urls]
 Homepage='http://www.plumed.org'
 
 [project.optional-dependencies]
-test = ['numpy', ' pandas', 'pytest']
+#pytest is just an aggregator
+test = ['pytest']
