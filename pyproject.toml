@@ -22,6 +22,8 @@ classifiers=[
           'Programming Language :: Python :: 3.12',
   ]
 authors=[{name = 'Gareth A. Tribello', email='plumed-users@googlegroups.com'}]
+# The code is set up in order to have MDAnalysis "optional"
+# But mpi4py needs mpi on the system, and MDA should not require non-python dependencies
 dependencies=["numpy", "pandas", "MDAnalysis"]
 #zip_safe=false #deprecated
 requires-python ='>=3'
