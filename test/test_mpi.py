@@ -9,7 +9,7 @@ except ImportError:
 
 class Test(unittest.TestCase):
   @unittest.skipIf(not HAS_MPI4PY,
-                     "mpi4py not installed")
+                     "mpi4py not installed.")
   def test(self):
       comm = MPI.COMM_WORLD
       p = plumed.Plumed()

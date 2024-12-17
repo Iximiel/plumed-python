@@ -161,17 +161,18 @@ class Test(unittest.TestCase):
  def test25(self):
   self.check(ib.verbatim("# here is a comment"),'# here is a comment\n')
 
- if _HAS_MDANALYSIS:
-  def test_mdanalysis(self):
-    u=MDAnalysis.Universe("test/ref.pdb")
-    self.check(
-       ib.GROUP(ATOMS=u.select_atoms("name C2 C4 C6")),
-       'GROUP ATOMS={16 20 25 50 54 59 84 88 93 118 122 127 147 151 156 178 182 187 209 213 218 240 244 249}\n'
-    )
-    self.check(
-       ib.GROUP(ATOMS=u.select_atoms("name C2","name C4","name C6")),
-       'GROUP ATOMS={20 54 88 122 156 187 218 249 25 59 93 127 151 182 213 244 16 50 84 118 147 178 209 240}\n'
-    )
+@unittest.skipIf(not _HAS_MDANALYSIS,
+                     "MDAnalysis not installed.")
+def test_mdanalysis(self):
+  u=MDAnalysis.Universe("test/ref.pdb")
+  self.check(
+     ib.GROUP(ATOMS=u.select_atoms("name C2 C4 C6")),
+     'GROUP ATOMS={16 20 25 50 54 59 84 88 93 118 122 127 147 151 156 178 182 187 209 213 218 240 244 249}\n'
+  )
+  self.check(
+     ib.GROUP(ATOMS=u.select_atoms("name C2","name C4","name C6")),
+     'GROUP ATOMS={20 54 88 122 156 187 218 249 25 59 93 127 151 182 213 244 16 50 84 118 147 178 209 240}\n'
+  )
 
 if __name__ == "__main__":
     unittest.main()
