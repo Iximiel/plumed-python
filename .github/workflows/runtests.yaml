@@ -118,7 +118,7 @@ jobs:
         if: ${{ matrix.os == 'ubuntu-latest' }}
         run: |
             export PLUMED_KERNEL=$HOME/opt/lib/libplumedKernel.so
-            python -m pytest
+            python -m pytest -v
 
 
   just-build:
