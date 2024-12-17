@@ -83,7 +83,11 @@ jobs:
             sudo apt update
             sudo apt install mpi-default-bin mpi-default-dev
             sudo apt install libfftw3-dev gsl-bin libgsl0-dev libboost-serialization-dev
-    
+      - name: Install extra pypy dependencies
+        if: ${{ matrix.python-version == 'pypy3.10' }}  
+        run: |
+            sudo apt install libopenblas-dev
+            
       - name: Set paths 
         run: |
             echo "$HOME/opt/bin" >> $GITHUB_PATH
