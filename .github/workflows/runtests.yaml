@@ -110,6 +110,7 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
+          cache: 'pip'
       
       - name: Install package with tests
         run: python -m pip install '.[test]'
@@ -133,4 +134,4 @@ jobs:
         with:
           persist-credentials: false      
       - name: Install package with tests
-        run: python -m pip install '.[test]'
+        run: python -m pip install '.'
