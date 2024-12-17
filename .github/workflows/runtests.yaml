@@ -113,12 +113,14 @@ jobs:
           cache: 'pip'
       
       - name: Install package with tests
-        run: python -m pip install '.[test]'
+        run: python -m pip install '.[test,mpi]'
       - name: Run tests
         if: ${{ matrix.os == 'ubuntu-latest' }}
         run: |
             export PLUMED_KERNEL=$HOME/opt/lib/libplumedKernel.so
             python -m pytest
+
+
   just-build:
     runs-on: ${{ matrix.os }}
     strategy:
