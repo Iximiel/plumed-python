@@ -8,7 +8,7 @@ except ImportError:
   HAS_MPI4PY=False
 
 class Test(unittest.TestCase):
-  @unittest.skipIf(not HAS_MPI4PY,
+  @unittest.skipUnless(HAS_MPI4PY,
                      "mpi4py not installed.")
   def test(self):
       comm = MPI.COMM_WORLD

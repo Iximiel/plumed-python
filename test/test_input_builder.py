@@ -1,6 +1,7 @@
 
 import unittest
 import plumed
+import os
 
 ib=plumed.InputBuilder()
 
@@ -10,8 +11,17 @@ try:
 except:
   _HAS_MDANALYSIS=False
 
-class Test(unittest.TestCase):
 
+try:
+  import numpy
+  _HAS_NUMPY=True
+except:
+  _HAS_NUMPY=False
+    
+
+class Test(unittest.TestCase):
+ def setUp(self):
+    self.dir_path = os.path.dirname(os.path.realpath(__file__))
  def check(self,s1,s2):
   self.assertEqual(s1,s2)
 
@@ -111,11 +121,9 @@ class Test(unittest.TestCase):
     'RESTRAINT ARG=d1 AT=@replicas:{0.0 1.0 2.0 3.0} KAPPA=10\n'
   )
 
+ @unittest.skipUnless(_HAS_NUMPY,
+                     "numpy not installed.")
  def test16(self):
-  try:
-    import numpy
-  except:
-    print("This test requires numpy module installed.")
   self.check(
      ib.RESTRAINT(ARG="d1",KAPPA=10,AT=ib.replicas(numpy.linspace(3.0,5.0,17)))
   ,
@@ -161,10 +169,10 @@ class Test(unittest.TestCase):
  def test25(self):
   self.check(ib.verbatim("# here is a comment"),'# here is a comment\n')
 
-@unittest.skipIf(not _HAS_MDANALYSIS,
+ @unittest.skipUnless(_HAS_MDANALYSIS,
                      "MDAnalysis not installed.")
-def test_mdanalysis(self):
-  u=MDAnalysis.Universe("test/ref.pdb")
+ def test_mdanalysis(self):
+  u=MDAnalysis.Universe(self.dir_path+"/ref.pdb")
   self.check(
      ib.GROUP(ATOMS=u.select_atoms("name C2 C4 C6")),
      'GROUP ATOMS={16 20 25 50 54 59 84 88 93 118 122 127 147 151 156 178 182 187 209 213 218 240 244 249}\n'
