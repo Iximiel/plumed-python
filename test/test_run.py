@@ -168,7 +168,8 @@ class Test(unittest.TestCase):
     of.close()
 
   def test(self):
-    with cd('test/'):
+    self.dir_path = os.path.dirname(os.path.realpath(__file__))
+    with cd(self.dir_path):
         self.runtest()
 
 if __name__ == "__main__":

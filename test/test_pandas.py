@@ -14,22 +14,24 @@ def cd(newdir):
         os.chdir(prevdir)
 
 class Test(unittest.TestCase):
+  def setUp(self):
+    self.dir_path = os.path.dirname(os.path.realpath(__file__))
   def test1(self):
-    with cd('test/'):
+    with cd(self.dir_path):
         d=plumed.read_as_pandas("COLVAR",enable_constants='columns')
         with open("dataframe","wt") as f:
             print(d,file=f)
         self.assertTrue(filecmp.cmp("dataframe","dataframe.ref"))
 
   def test2(self):
-    with cd('test/'):
+    with cd(self.dir_path):
         d=plumed.read_as_pandas("COLVAR_gzipped.gz",enable_constants='columns')
         with open("dataframe","wt") as f:
             print(d,file=f)
         self.assertTrue(filecmp.cmp("dataframe","dataframe.ref"))
 
   def test3(self):
-    with cd('test/'):
+    with cd(self.dir_path):
         i=0
         for d in plumed.read_as_pandas("COLVAR",chunksize=4,enable_constants='columns'):
             with open("dataframe."+str(i),"wt") as f:
@@ -38,7 +40,7 @@ class Test(unittest.TestCase):
             i=i+1
 
   def test4(self):
-    with cd('test/'):
+    with cd(self.dir_path):
         i=0
         for d in plumed.read_as_pandas("COLVAR_gzipped.gz",chunksize=4,enable_constants='columns'):
             with open("dataframe."+str(i),"wt") as f:
@@ -47,7 +49,7 @@ class Test(unittest.TestCase):
             i=i+1
 
   def test5(self):
-    with cd('test/'):
+    with cd(self.dir_path):
         d=plumed.read_as_pandas("COLVAR",enable_constants='metadata')
         with open("dataframe_noconst","wt") as f:
             print(d,file=f)
@@ -56,7 +58,7 @@ class Test(unittest.TestCase):
         self.assertEqual(d.plumed_constants[0][2],"pi")
 
   def test6(self):
-    with cd('test/'):
+    with cd(self.dir_path):
         i=0
         for d in plumed.read_as_pandas("COLVAR",chunksize=4,enable_constants='metadata'):
             with open("dataframe_noconst."+str(i),"wt") as f:
@@ -67,7 +69,7 @@ class Test(unittest.TestCase):
             i=i+1
 
   def test7(self):
-    with cd('test/'):
+    with cd(self.dir_path):
         d=plumed.read_as_pandas("COLVAR")
         plumed.write_pandas(d,"COLVAR_write1")
         self.assertTrue(filecmp.cmp("COLVAR_write1","COLVAR_write.ref"))

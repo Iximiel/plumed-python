@@ -14,23 +14,25 @@ def cd(newdir):
         os.chdir(prevdir)
 
 class Test(unittest.TestCase):
+  def setUp(self):
+    self.dir_path = os.path.dirname(os.path.realpath(__file__))
   def test1(self):
-    with cd('test/'):
+    with cd(self.dir_path):
         plumed.hills_time_average("HILLS_av", "HILLS_av1")
         self.assertTrue(filecmp.cmp("HILLS_av1","HILLS_av1.ref"))
 
   def test2(self):
-    with cd('test/'):
+    with cd(self.dir_path):
         plumed.hills_time_average("HILLS_av", "HILLS_av2",t0=1.0,t1=1.4)
         self.assertTrue(filecmp.cmp("HILLS_av2","HILLS_av2.ref"))
 
   def test3(self):
-    with cd('test/'):
+    with cd(self.dir_path):
         plumed.hills_time_average("HILLS_av", "HILLS_av3",frac0=0.2,frac1=0.8)
         self.assertTrue(filecmp.cmp("HILLS_av3","HILLS_av3.ref"))
 
   def test4(self):
-    with cd('test/'):
+    with cd(self.dir_path):
         df=plumed.read_as_pandas("HILLS_av")
         df1=plumed.hills_time_average(df)
         df["pp"]=1
@@ -38,7 +40,7 @@ class Test(unittest.TestCase):
         self.assertTrue(filecmp.cmp("HILLS_av4","HILLS_av4.ref"))
 
   def test5(self):
-    with cd('test/'):
+    with cd(self.dir_path):
         df=plumed.read_as_pandas("HILLS_av")
         plumed.hills_time_average(df,inplace=True)
         plumed.write_pandas(df,"HILLS_av5")
